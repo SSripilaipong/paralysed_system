@@ -1,0 +1,87 @@
+version: '3'
+services:
+  client:
+    build:
+      context: .
+      dockerfile: client.Dockerfile
+    image: appswhat-client
+    depends_on:
+      - load-balancer
+    healthcheck:
+      test: curl -f http://localhost:1138 || exit 1
+      retries: 5
+    ports:
+      - '1138:1138'
+    restart: on-failure
+    volumes:
+      - ./client:/client
+      - ./shared:/shared
+      - /client/node_modules
+      - /shared/node_modules
+  load-balancer:
+    build:
+      context: .
+      dockerfile: load-balancer.Dockerfile
+    image: appswhat-load-balancer
+    depends_on:
+      - server-a
+      - server-b
+    healthcheck:
+      test: curl -f http://localhost:8008 || exit 1
+      retries: 5
+    network_mode: 'host'
+    restart: on-failure
+    volumes:
+      - ./load-balancer:/load-balancer
+      - /load-balancer/node_modules
+  logger:
+    build:
+      context: .
+      dockerfile: logger.Dockerfile
+    image: appswhat-logger
+    depends_on:
+      - load-balancer
+      - mongo
+    healthcheck:
+      test: curl -f http://localhost:8888 || exit 1
+      retries: 5
+    network_mode: 'host'
+    restart: on-failure
+    volumes:
+      - ./logger:/logger
+      - ./shared:/shared
+      - /logger/node_modules
+      - /shared/node_modules
+  server-a:
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    image: appswhat-server
+    depends_on:
+      - redis
+    ports:
+      - '8080:8080'
+    restart: on-failure
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+  server-b:
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    image: appswhat-server
+    depends_on:
+      - redis
+    environment:
+      - PORT=8081
+    expose:
+      - '8081'
+    ports:
+      - '8081:8081'
+    restart: on-failure
+  redis:
+    image: redis
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
