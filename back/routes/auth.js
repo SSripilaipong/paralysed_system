@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
 
   // Look if the user exists
   const curUser = await User.findOne({ user: req.body.user });
-  if (!curUser) return res.status(400).send('Invalid username or password');
+  if (!curUser) return res.status(403).send('Invalid username or password');
 
   // validate password
   const validPassword = await bcrypt.compare(
@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
     curUser.password
   );
   if (!validPassword)
-    return res.status(400).send('Invalid username or password');
+    return res.status(403).send('Invalid username or password');
   // should not enter private key in the source code !!! should put it in the environment variable instead
   const token = {
     _id: curUser._id,
@@ -25,3 +25,5 @@ router.post('/', async (req, res) => {
   };
   res.send({ token });
 });
+
+module.exports = router;

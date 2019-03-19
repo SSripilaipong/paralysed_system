@@ -1,18 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { User, validate } = require('../models/user');
-const _ = require('lodash');
-const bcrypt = require('bcrypt');
+const { User, validate } = require("../models/user");
+const _ = require("lodash");
+const bcrypt = require("bcrypt");
 
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   // validate the req
   const { error } = validate(req.body);
   if (error) res.status(400).send(error.details[0].message);
 
-  const { user, password } = req.body;
+  const { password } = req.body;
   // find if the username already exist
-  let user = await User.findOne({ user });
-  if (user) return res.status(400).send('User already registered.');
+  let user = await User.findOne({ user: req.body.user });
+  if (user) return res.status(400).send("User already registered.");
 
   newUser = new User(user, password);
 
