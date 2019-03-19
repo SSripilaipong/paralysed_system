@@ -1,7 +1,10 @@
 const socketIO = require("socket.io");
 
 const subscribeGroup = (socket,data) => {
-
+    const {gid} = data;
+    socket.join(gid);
+    console.log("subscribed")
+    //get unread message
 }
 
 module.exports = server => {
@@ -22,7 +25,8 @@ module.exports = server => {
       //get time
       const { gid, user, message } = data;
       console.log(message);
-      socket.emit("new-message", message);
+      socket.to(gid).emit("new-message", message);
+      console.log("emited")
     });
   });
 };
