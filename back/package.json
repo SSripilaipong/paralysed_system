@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "joi": "^14.3.1",
+    "mongoose": "^5.4.19"
+  }
 }
