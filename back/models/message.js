@@ -4,7 +4,7 @@ const Joi = require('joi');
 const timestamps = require('mongoose-timestamp');
 
 const MessageSchema = new Schema({
-  RoomId: {
+  GroupId: {
     type: Schema.Types.ObjectId,
     required: true
   },

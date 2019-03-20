@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const Joi = require('joi');
 
-const RoomSchema = new Schema({
+const GroupSchema = new Schema({
   name: {
-    type: String(),
+    type: String,
     minLength: 5,
     required: true
   },
@@ -16,9 +16,9 @@ function validate(req) {
     name: Joi.string()
       .min(5)
       .required(),
-    participants: Joi.array.items().required()
+    user: Joi.string().required()
   };
   return Joi.validate(req, schema);
 }
 
-module.exports = { Room: mongoose.model('Room', RoomSchema), validate };
+module.exports = { Group: mongoose.model('Group', GroupSchema), validate };
