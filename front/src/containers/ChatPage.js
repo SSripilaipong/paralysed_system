@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
-import { Button, Form, Row, Col, FormGroup,Modal,FormLabel,FormControl,Container } from "react-bootstrap";
-import NavbarComponent from '../components/Navbar'
+import { Widget, addResponseMessage, addLinkSnippet, addUserMessage } from 'react-chat-widget';
+import './ChatPage.css';
+
+
 class ChatPage extends Component {
+  state = {
+    newMessage: "",
+    responseMessage:"Welcome to this awesome chat!",
+  };
+  componentDidMount() {
+    addResponseMessage(this.state.responseMessage);
+    
+  }
+
+  handleNewUserMessage = (newMessage) => {
+    console.log(`New message incoming! ${newMessage} `);
+    // Now send the message throught the backend API
+  }
+
   render() {
     return (
-      <Container>
-      <Row>
-        <Col sm={2}>sm=2</Col>
-        <Col sm>sm=true</Col>
-        <Col sm>sm=true</Col>
-        <Col sm>sm=true</Col>
-      </Row>
-      <Row>
-      </Row>
-    </Container>
-    )
-  }
+      <div className="chat">
+        <Widget
+          handleNewUserMessage={this.handleNewUserMessage}
+          title="ChatBOX"
+          subtitle="type chat here"
+        />
+      </div>
+    );
+  } 
 }
 
 export default ChatPage;

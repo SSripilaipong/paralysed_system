@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./LoginPage.css"
 import axios from "axios";
 import {
   FormGroup,
@@ -46,7 +47,9 @@ class LoginPage extends Component {
   render() {
     const { validated } = this.state;
     return (
+      
       <div className="Login">
+        
         <Form onSubmit={this.loginHandler} noValidate validated={validated}>
           <p className="center_text">MEMBER LOGIN</p>
           <FormGroup controlId="username" size="large">
@@ -82,8 +85,10 @@ class LoginPage extends Component {
             Login
           </Button>
 
+          <a href="regis">Register</a>
         </Form>
       </div>
+
     );
   }
 }
