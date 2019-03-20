@@ -1,34 +1,57 @@
-import React, { Component } from 'react';
-import { Widget, addResponseMessage, addLinkSnippet, addUserMessage } from 'react-chat-widget';
-import './ChatPage.css';
-
+import React, { Component } from "react";
+import "./ChatPage.css";
+import MessageList from "../components/Messagelist";
+import SendMessageForm from "../components/SendMessageForm";
+import RoomList from "../components/Roomlist";
+import NewRoomForm from "../components/NewRoomForm";
 
 class ChatPage extends Component {
-  state = {
-    newMessage: "",
-    responseMessage:"Welcome to this awesome chat!",
-  };
-  componentDidMount() {
-    addResponseMessage(this.state.responseMessage);
-    
+  constructor() {
+    super();
+    this.state = {
+      messages: [],
+      rooms: [],
+      roomId: null,
+      userId: "toey",
+      scroll: false
+    };
+    this.sendMessage = this.sendMessage.bind(this);
+    this.createRoom = this.createRoom.bind(this);
+    this.enterRoom = this.enterRoom.bind(this);
   }
 
-  handleNewUserMessage = (newMessage) => {
-    console.log(`New message incoming! ${newMessage} `);
-    // Now send the message throught the backend API
+  sendMessage(text) {
+    this.setState({
+      messages: [...this.state.messages, { text: text, time: "11:00" }],
+      scroll: !this.state.scroll
+    });
   }
 
+  createRoom(name) {
+    console.log(name);
+    this.setState({
+      rooms: [...this.state.rooms, name]
+    });
+  }
+  enterRoom(name) {
+    this.setState({
+      roomId: name
+    });
+  }
   render() {
     return (
       <div className="chat">
-        <Widget
-          handleNewUserMessage={this.handleNewUserMessage}
-          title="ChatBOX"
-          subtitle="type chat here"
+        <RoomList rooms={[...this.state.rooms]} enterRoom={this.enterRoom} />
+        <MessageList
+          messages={this.state.messages}
+          userId={this.state.userId}
+          scroll={this.state.scroll}
         />
+        <SendMessageForm sendMessage={this.sendMessage} />
+        <NewRoomForm createRoom={this.createRoom} />
       </div>
     );
-  } 
+  }
 }
 
 export default ChatPage;
