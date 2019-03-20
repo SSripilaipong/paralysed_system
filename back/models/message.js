@@ -4,7 +4,7 @@ const Joi = require('joi');
 const timestamps = require('mongoose-timestamp');
 
 const MessageSchema = new Schema({
-  GroupId: {
+  groupId: {
     type: Schema.Types.ObjectId,
     required: true
   },
@@ -15,8 +15,7 @@ const MessageSchema = new Schema({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'
-  },
-  timestamps: true
+  }
 });
 
 MessageSchema.plugin(timestamps);

@@ -1,12 +1,12 @@
 const { Group } = require('../models/group');
 const { User } = require('../models/user');
+const { Message } = require('../models/message');
 
-async function getGroups(res, user) {
+async function getGroupsAndMessages(res, user, gid) {
   const userId = (await User.findOne({ user }))._id;
 
   if (!userId) return undefined;
-
-  await Group.find({}, null, { sort: { _id: 1 } }, (err, groups) => {
+  await Group.find({}, null, { sort: { _id: 1 } }, async (err, groups) => {
     if (err) return undefined;
     let result = [];
     groups.forEach(group => {
@@ -27,8 +27,11 @@ async function getGroups(res, user) {
           isJoined: false
         });
     });
-    res.send({ groups: result });
+    const messages = await Message.find({ groupId: gid }, null, {
+      sort: { _id: -1 }
+    });
+    res.send({ groups: result, messages });
   });
 }
 
-module.exports = getGroups;
+module.exports = getGroupsAndMessages;

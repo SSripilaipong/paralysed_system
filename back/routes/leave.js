@@ -27,8 +27,12 @@ router.post('/', async (req, res) => {
     if (index > -1) {
       group.participants.splice(index, 1);
       console.log(group);
-      await group.save();
-      getGroups(res, user);
+      try {
+        await group.save();
+        getGroups(res, user);
+      } catch (e) {
+        res.send(e);
+      }
     } else res.send('you are not in the group');
   });
 });
