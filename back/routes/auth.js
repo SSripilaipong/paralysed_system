@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
     _id: curUser._id,
     user: curUser.user
   };
-  res.send({ token });
+  res.send(token);
 });
 
 module.exports = router;

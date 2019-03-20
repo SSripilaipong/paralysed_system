@@ -1,9 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const getGroups = require('../helper/getGroups');
 
-router.get("/", (req, res) => {
-  const { user } = req.query;
-  if (!user) res.status(400).send("Invalid parameter value");
+router.get('/:user', async (req, res) => {
+  let { user } = req.params;
+  if (!user) res.status(400).send('Invalid parameter value');
+  getGroups(res, user);
 });
 
 module.exports = router;
