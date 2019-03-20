@@ -1,0 +1,150 @@
+.wrapper {
+  margin: 40px auto;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 10px #555;
+  background-color: #ffffff;
+  }
+  .buttonwrapper {
+    margin: 10px auto;
+    width: 530px;
+    text-align: center;
+  }
+  .form-wrapper {
+    margin: 20px auto;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 10px #555;
+    background-color: #ffffff;
+  }
+  input::placeholder {
+    font-size: 1.2em;
+    font-weight: lighter;
+    color: #999;
+  }
+  
+  input.error {
+    border: 1px solid red;
+  }
+  
+  .errorMessage {
+    color: red;
+    font-size: 0.75em;
+    display: relative;
+  }
+  
+  .wrapper form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  label {
+    font-size: 1em;
+    margin-bottom: 0.25em;
+    color: #222;
+    font-weight: lighter;
+  }
+  
+  input {
+    padding: 10px 10px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #cfcfcf;
+  }
+  
+  .name,
+  .password {
+    margin-right: 6%;
+  }
+  
+  .name,
+  .surame,
+  .email,
+  .password,
+  .id,
+  .drivingnumber,
+  .tel,
+  .confirmpassword,
+  .username,
+  .term {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  .name,
+  .surname,
+  .password,
+  .confirmpassword {
+    width: 47%;
+  }
+  .term {
+    justify-items: center;
+    text-align: center;
+  }
+  .email,
+  .id,
+  .drivingnumber,
+  .tel,
+  .username,
+  .term {
+    width: 100%;
+  }
+  
+  .createAccount {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .createAccount button {
+    background-color: #519e8a;
+    color: #fff;
+    border: 2px solid #fff;
+    width: 100%;
+    margin-top: 1em;
+    padding: 8px 0px;
+    font-size: 1em;
+    font-weight: lighter;
+    letter-spacing: 1px;
+    margin-bottom: 0.25em;
+  }
+  
+  .createAccount button:hover {
+    color: #519e8a;
+    background-color: #fff;
+    border: 2px solid #519e8a;
+  }
+  
+  .createAccount small {
+    color: #999;
+    font-weight: lighter;
+  }
+  
+  .choseImage {
+    width: 100%;
+    align-items: center;
+  }
+
+  
+  .choseImage .renter .rentertext,
+  .choseImage .user .usertext {
+    font-size: 100px;
+    font-weight: 900;
+    line-height: 70px;
+    color: #fff;
+    text-align: center;
+    text-shadow: 2px 2px 8px #111;
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  
