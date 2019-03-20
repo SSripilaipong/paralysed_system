@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Button } from "react-bootstrap";
 class Roomlist extends React.Component {
   render() {
     return (
@@ -11,11 +11,12 @@ class Roomlist extends React.Component {
               <li>
                 <a
                   className="room"
-                  herf="#"
+                  href="#"
                   onClick={() => this.props.enterRoom(room)}
                 >
                   {room}
                 </a>
+                <Button href="#">Join</Button>
               </li>
             );
           })}
