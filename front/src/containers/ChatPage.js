@@ -15,7 +15,9 @@ class ChatPage extends Component {
       roomId: null,
       userName: window.localStorage.getItem("userName"),
       userId: window.localStorage.getItem("userId"),
-      scroll: false
+      scroll: false,
+      lastmessageIdLastTime: "",
+      lastmessageId: ""
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.addunreadMessage = this.addunreadMessage.bind(this);
@@ -28,6 +30,7 @@ class ChatPage extends Component {
   componentDidMount() {
     this.getRoomlist();
   }
+
   getRoomlist() {
     axios
       .get(`http://localhost:8000/api/groups/${this.state.userName}`)
@@ -38,6 +41,7 @@ class ChatPage extends Component {
         );
       });
   }
+
   sendMessage(text) {
     this.setState({
       messages: [
@@ -62,6 +66,7 @@ class ChatPage extends Component {
       ]
     });
   }
+
   removeunreadMessage() {
     this.setState({
       temp: []
@@ -77,6 +82,14 @@ class ChatPage extends Component {
       messages: this.state.temp
     });
   }
+
+  recieveMessage(messages) {
+    this.setState({
+      messages: [],
+      lastmessageIdLastTime: this.state.messages[-1]._id
+    });
+  }
+
   createRoom(roomname) {
     axios
       .post(
@@ -121,8 +134,8 @@ class ChatPage extends Component {
     this.state.rooms.map(room => {
       if (room.name === roomname) {
         this.setState({
-          roomId: room.name,
-          messages: room.messages
+          roomId: room.gname,
+          lastmessageId: this.state.lastmessageIdLastTime
         });
       }
     });
@@ -141,6 +154,8 @@ class ChatPage extends Component {
           userName={this.state.userName}
           userId={this.state.userId}
           scroll={this.state.scroll}
+          lastmessageIdLastTime={this.state.lastmessageIdLastTime}
+          lastmessageId={this.state.lastmessageId}
         />
         <SendMessageForm
           sendMessage={this.sendMessage}
