@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 
 router.post('/', async (req, res) => {
   const { error } = validate(req.body);
-  if (error) res.status(400).send(error.details[0].message);
+  if (error) return res.status(400).send(error.details[0].message);
 
   // Look if the user exists
   const curUser = await User.findOne({ user: req.body.user });

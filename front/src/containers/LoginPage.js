@@ -9,13 +9,11 @@ import {
   Form
 } from "react-bootstrap";
 import { withRouter, Link } from "react-router-dom";
+import { fail } from "assert";
 class LoginPage extends Component {
   state = {
-    username: "",
-    password: "",
-    validated: false,
-    faillogin: false,
-    failmessage: "No User ID or Password"
+    user: "",
+    password: ""
   };
   loginHandler = event => {
     event.preventDefault();
@@ -27,11 +25,11 @@ class LoginPage extends Component {
     const data = { ...this.state };
     if (form.checkValidity()) {
       axios
-        .post("http://localhost:8000/api/login", data)
+        .post("http://localhost:8000/api/login", data,  { headers: { "Content-type": "application/json" } })
         .then(res => {
           console.log(res.user);
           window.location = "/chat";
-        })
+        }) 
         .catch(e => {
           this.setState({
             faillogin: true
@@ -52,13 +50,13 @@ class LoginPage extends Component {
         
         <Form onSubmit={this.loginHandler} noValidate validated={validated}>
           <p className="center_text">MEMBER LOGIN</p>
-          <FormGroup controlId="username" size="large">
+          <FormGroup controlId="user" size="large">
             <FormLabel>Username</FormLabel>
             <FormControl
               required
               autoFocus
               type="username"
-              value={this.state.username}
+              value={this.state.user}
               onChange={this.handleChange}
             />
           </FormGroup>
