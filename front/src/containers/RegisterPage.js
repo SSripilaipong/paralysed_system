@@ -95,7 +95,7 @@ class RegisterPage extends Component {
         </div>
         <div className = "buttonwrapper">
             <Button variant="danger" className = "buttonwrapper" href="/">Back</Button>
-            <Button  className = "buttonwrapper" href="/">Confirm</Button>
+            <Button  className = "buttonwrapper" onSubmit ={this.submitHandler}>Confirm</Button>
         </div>
       </div>
     )
