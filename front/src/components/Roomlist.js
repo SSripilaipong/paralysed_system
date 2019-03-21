@@ -17,12 +17,23 @@ class Roomlist extends React.Component {
                     justifyContent: "center",
                     width: "100%"
                   }}
-                  onClick={() => this.props.enterRoom(room.name)}
+                  onClick={() => this.props.enterRoom(room.gid)}
                 >
-                  <a className="roomName">{room.name}</a>
+                  <a className="roomName">{room.gname}</a>
                 </div>
-                <Button href="#" onClick={() => this.props.joinRoom()}>
+                <Button
+                  href="#"
+                  onClick={() => this.props.joinRoom(room.gid)}
+                  style={{ display: room.isJoined ? "none" : "" }}
+                >
                   Join
+                </Button>
+                <Button
+                  href="#"
+                  onClick={() => this.props.leaveRoom(room.gid)}
+                  style={{ display: room.isJoined ? "" : "none" }}
+                >
+                  Leave
                 </Button>
               </div>
             );
