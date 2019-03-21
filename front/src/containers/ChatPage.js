@@ -86,7 +86,7 @@ class ChatPage extends Component {
   recieveMessages(messages) {
     this.setState({
       messages: messages,
-      lastmessageId: messages[-1]._id
+      lastmessageId: messages[messages.length - 1]._id
     });
   }
 

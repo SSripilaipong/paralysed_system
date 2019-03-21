@@ -53,16 +53,13 @@ class MessageList extends React.Component {
           }}
         >
           {this.props.messages.map((message, index) => {
-            if (
-              message._id.toString() ===
-              this.props.lastmessageIdLastTime.toString()
-            ) {
+            if (message._id === this.props.lastmessageIdLastTime) {
               return (
                 <div>
                   <Message
                     key={index}
                     userId={this.props.userId}
-                    text={message.text}
+                    text={message.body}
                     time={message.time}
                     senderId={message.senderId}
                     senderName={message.senderName}
@@ -70,7 +67,7 @@ class MessageList extends React.Component {
                   <Message
                     key={index}
                     userId={this.props.userId}
-                    text={message.text}
+                    text="new messages"
                     time={message.time}
                     senderId={-1}
                     senderName={message.senderName}
@@ -82,7 +79,7 @@ class MessageList extends React.Component {
                 <Message
                   key={index}
                   userId={this.props.userId}
-                  text={message.text}
+                  text={message.body}
                   time={message.time}
                   senderId={message.senderId}
                   senderName={message.senderName}
