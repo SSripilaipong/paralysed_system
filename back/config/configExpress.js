@@ -34,7 +34,7 @@ const configMiddleware = app => {
     res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
-    );
+    ); 
     next();
   });
 };

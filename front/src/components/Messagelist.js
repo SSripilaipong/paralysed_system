@@ -40,7 +40,6 @@ class MessageList extends React.Component {
             display: this.props.roomId !== null ? "none" : "flex",
             flexDirection: "column",
             alignItems: "center",
-
             justifyContent: "center",
             height: "100%"
           }}
@@ -60,6 +59,8 @@ class MessageList extends React.Component {
                 userId={this.props.userId}
                 text={message.text}
                 time={message.time}
+                senderId={message.senderId}
+                senderName={message.senderName}
               />
             );
           })}
