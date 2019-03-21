@@ -81,6 +81,7 @@ class LoginPage extends Component {
             style={{ width: "40%", margin: "0 auto" }}
             // disabled={!this.validateForm()}
             type="submit"
+            onSubmit={this.loginHandler}
           >
             Login
           </Button>
