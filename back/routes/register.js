@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
     return res.status(400).send(e.errors.user.message);
   }
 
-  res.send(newUser);
+  res.send(_.pick(newUser, ['_id', 'user']));
 });
 
 module.exports = router;
