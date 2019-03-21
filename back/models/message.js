@@ -12,9 +12,13 @@ const MessageSchema = new Schema({
     type: String,
     required: true
   },
-  author: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+  user: {
+    type: String,
+    required: true
   }
 });
 
@@ -22,9 +26,10 @@ MessageSchema.plugin(timestamps);
 
 function validate(req) {
   const schema = {
-    RoomId: Joi.required(),
+    groupId: Joi.required(),
     body: Joi.string().required(),
-    author: Joi.required()
+    userId: Joi.required(),
+    user: Joi.string().required()
   };
   return Joi.validate(req, schema);
 }
