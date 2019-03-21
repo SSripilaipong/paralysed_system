@@ -23,6 +23,7 @@ router.post("/", async (req, res) => {
     _id: curUser._id,
     user: curUser.user
   };
+  console.log(token);
   res.send(token);
 });
 
