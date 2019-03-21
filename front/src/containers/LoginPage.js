@@ -23,7 +23,7 @@ class LoginPage extends Component {
     }
     this.setState({ validated: true });
     const data = {
-      username: this.state.username,
+      user: this.state.user,
       password: this.state.password
     };
     if (form.checkValidity()) {
