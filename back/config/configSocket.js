@@ -1,39 +1,39 @@
-const socketIO = require('socket.io');
-const getMessages = require('../helper/getMessages');
-const getCurrentMessage = require('../helper/getCurrentMessage');
+const socketIO = require("socket.io");
+const getCurrentMessage = require("../helper/getCurrentMessage");
+const getMessages = require("../helper/getMessages");
 
-const subscribeGroup = async (socket, data) => {
+const enterGroup = async (socket, data) => {
   const { gid } = data;
   socket.join(gid);
-  console.log('subscribed');
-  // get messages
+  console.log(socket.id, "entered group");
+
   const messages = await getMessages(gid);
+  socket.emit("respone", JSON.stringify(messages));
 };
 
 module.exports = server => {
   const io = socketIO(server);
 
-  io.on('connection', socket => {
-    console.log('user connected');
+  io.on("connection", socket => {
+    console.log(socket.id,"user connected");
 
-    socket.on('subscribe group', data => {
-      subscribeGroup(socket, data);
+    socket.on("enter-group", data => {
+      enterGroup(socket, data);
     });
 
-    socket.on('disconnect', () => {
-      console.log('user disconnected');
+    socket.on("disconnect", () => {
+      console.log(socket.id,"user disconnected");
     });
 
-    socket.on('sent-message', async data => {
-      //get time
-      const { gid, user, message } = data;
-      const currentMessage = await getCurrentMessage(gid, user, message);
+    socket.on("sent-message", async data => {
+      const { gid, userObj, message } = data;
+      const currentMessage = await getCurrentMessage(gid, userObj, message);
       if (currentMessage) {
         console.log(currentMessage);
-        socket.to(gid).emit('new-message', message);
-        console.log('emited');
+        socket.to(gid).emit("new-message", message);
+        console.log("emited");
       } else {
-        console.log('Get current message fails');
+        console.log("Get current message fails");
       }
     });
   });

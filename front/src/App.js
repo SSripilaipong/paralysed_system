@@ -4,6 +4,8 @@ import { BrowserRouter,Route, Switch } from "react-router-dom";
 import LoginPage from "./containers/LoginPage";
 import RegisterPage from "./containers/RegisterPage";
 import ChatPage from "./containers/ChatPage";
+import Chating from "./Chating"
+
 class App extends Component {
   render() {
     return (
@@ -14,6 +16,7 @@ class App extends Component {
             <Route exact path="/" component={LoginPage} />
             <Route path="/regis" component={RegisterPage} />
             <Route path="/chat" component={ChatPage} />
+            <Route path="/chating" component={Chating} />
           </Switch>
           </BrowserRouter>
         </div>

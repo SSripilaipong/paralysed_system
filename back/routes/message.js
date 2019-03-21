@@ -1,11 +1,19 @@
 const express = require('express');
+const { Message } = require('../models/message');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-  const { isJoined, gid, user } = req.body;
-  if (!gid || !user) res.status(400).send('Invalid parameter value');
-  if (!seq_num) {
-    // get all or ignore
+  const { gid } = req.body;
+  if (!gid) return res.status(400).send('Invalid parameter value');
+
+  try {
+    const messages = await Message.find({ groupId: gid }, null, {
+      sort: { _id: -1 }
+    });
+    // console.log(messages);
+    res.send(messages);
+  } catch (e) {
+    res.send(messages);
   }
 });
 
