@@ -5,7 +5,6 @@ async function getMessages(gid) {
     const messages = await Message.find({ groupId: gid }, null, {
       sort: { _id: -1 }
     });
-    console.log(messages);
     return messages;
   } catch (e) {
     return undefined;
