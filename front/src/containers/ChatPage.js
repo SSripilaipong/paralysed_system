@@ -62,15 +62,15 @@ class ChatPage extends Component {
       messages: this.state.temp
     });
   }
-  createRoom(name) {
+  createRoom(roomname) {
     this.setState({
-      rooms: [...this.state.rooms, { name: name, messages: [] }]
+      rooms: [...this.state.rooms, { name: roomname, messages: [] }]
     });
   }
-
-  enterRoom(name) {
+  joinRoom(roomname) {}
+  enterRoom(roomname) {
     this.state.rooms.map(room => {
-      if (room.name === name) {
+      if (room.name === roomname) {
         this.setState({
           roomId: room.name,
           messages: room.messages

@@ -21,7 +21,11 @@ class Roomlist extends React.Component {
                 >
                   <a className="roomName">{room.name}</a>
                 </div>
-                <Button href="#" onClick={() => this.props.joinRoom()}>
+                <Button
+                  href="#"
+                  onClick={() => this.props.joinRoom()}
+                  style={{ display: "none" }}
+                >
                   Join
                 </Button>
               </div>
