@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import './ChatPage.css';
-import MessageList from '../components/Messagelist';
-import SendMessageForm from '../components/SendMessageForm';
-import RoomList from '../components/Roomlist';
-import NewRoomForm from '../components/NewRoomForm';
-import axios from 'axios';
+import React, { Component } from "react";
+import "./ChatPage.css";
+import MessageList from "../components/Messagelist";
+import SendMessageForm from "../components/SendMessageForm";
+import RoomList from "../components/Roomlist";
+import NewRoomForm from "../components/NewRoomForm";
+import axios from "axios";
 class ChatPage extends Component {
   constructor() {
     super();
@@ -13,17 +13,22 @@ class ChatPage extends Component {
       temp: [],
       rooms: [],
       roomId: null,
-      userName: window.localStorage.getItem('userName'),
-      userId: window.localStorage.getItem('userId'),
+      userName: window.localStorage.getItem("userName"),
+      userId: window.localStorage.getItem("userId"),
       scroll: false
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.addunreadMessage = this.addunreadMessage.bind(this);
     this.createRoom = this.createRoom.bind(this);
     this.enterRoom = this.enterRoom.bind(this);
+    this.joinRoom = this.joinRoom.bind(this);
+    this.leaveRoom = this.leaveRoom.bind(this);
   }
 
   componentDidMount() {
+    this.getRoomlist();
+  }
+  getRoomlist() {
     axios
       .get(`http://localhost:8000/api/groups/${this.state.userName}`)
       .then(res => {
@@ -33,7 +38,6 @@ class ChatPage extends Component {
         );
       });
   }
-
   sendMessage(text) {
     this.setState({
       messages: [
@@ -42,7 +46,7 @@ class ChatPage extends Component {
           senderName: this.state.userName,
           senderId: this.state.userId,
           text: text,
-          time: '11:00'
+          time: "11:00"
         }
       ],
       scroll: !this.state.scroll
@@ -54,7 +58,7 @@ class ChatPage extends Component {
     this.setState({
       messages: [
         ...this.state.messages,
-        { senderId: -1, text: 'unread messages', time: '' }
+        { senderId: -1, text: "unread messages", time: "" }
       ]
     });
   }
@@ -73,15 +77,49 @@ class ChatPage extends Component {
       messages: this.state.temp
     });
   }
-  createRoom(name) {
-    this.setState({
-      rooms: [...this.state.rooms, { name: name, messages: [] }]
-    });
+  createRoom(roomname) {
+    axios
+      .post(
+        "http://localhost:8000/api/create-group",
+        { name: roomname, user: this.state.userName },
+        {
+          headers: { "Content-type": "application/json" }
+        }
+      )
+      .then(res => {
+        this.getRoomlist();
+      });
   }
-
-  enterRoom(name) {
+  joinRoom(roomgid) {
+    const { userName } = this.state;
+    axios
+      .post(
+        "http://localhost:8000/api/join",
+        { gid: roomgid, user: userName },
+        {
+          headers: { "Content-type": "application/json" }
+        }
+      )
+      .then(res => {
+        this.getRoomlist();
+      });
+  }
+  leaveRoom(roomgid) {
+    axios
+      .post(
+        "http://localhost:8000/api/leave",
+        { gid: roomgid, user: this.state.userName },
+        {
+          headers: { "Content-type": "application/json" }
+        }
+      )
+      .then(res => {
+        this.getRoomlist();
+      });
+  }
+  enterRoom(roomname) {
     this.state.rooms.map(room => {
-      if (room.name === name) {
+      if (room.name === roomname) {
         this.setState({
           roomId: room.name,
           messages: room.messages
@@ -89,7 +127,6 @@ class ChatPage extends Component {
       }
     });
   }
-
   render() {
     return (
       <div className="chat">
@@ -97,6 +134,7 @@ class ChatPage extends Component {
           rooms={this.state.rooms}
           enterRoom={this.enterRoom}
           joinRoom={this.joinRoom}
+          leaveRoom={this.leaveRoom}
         />
         <MessageList
           messages={this.state.messages}
