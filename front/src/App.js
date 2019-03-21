@@ -7,8 +7,8 @@ import ChatPage from "./containers/ChatPage";
 class App extends Component {
   render() {
     return (
-      <div>
-        <div>
+      <div style ={{height:'100%'}}>
+        <div style ={{height:'100%'}}>
           <BrowserRouter>
           <Switch>
             <Route exact path="/" component={LoginPage} />
