@@ -144,6 +144,13 @@ body {
   margin: 10px 0 10px 0;
 }
 
+.unreadmessage {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10px 0 10px 0;
+}
+
 .othermessage {
   display: flex;
   flex-direction: row;
@@ -151,13 +158,13 @@ body {
   margin: 10px 0 10px 0;
 }
 
-.othermessage .userId {
+.othermessage .senderId {
   font-size: 11px;
   color: var(--main-text-color);
   opacity: 0.9;
   margin-bottom: 6px;
 }
-.ourmessage .userId {
+.ourmessage .senderId {
   display: none;
 }
 
@@ -179,7 +186,15 @@ body {
   margin: 5px;
   border-radius: 8px;
 }
-
+.unreadtext {
+  background: #c5c7c5;
+  color: var(--secondary-color);
+  height: auto;
+  padding: 4px 8px;
+  margin: 5px;
+  border-radius: 8px;
+  width: 100%;
+}
 .messageTime {
   font-size: 11px;
   flex: 1;

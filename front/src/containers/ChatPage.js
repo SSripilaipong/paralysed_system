@@ -10,29 +10,58 @@ class ChatPage extends Component {
     super();
     this.state = {
       messages: [],
+      temp: [],
       rooms: [],
       roomId: null,
       userId: "toey",
       scroll: false
     };
     this.sendMessage = this.sendMessage.bind(this);
+    this.addunreadMessage = this.addunreadMessage.bind(this);
     this.createRoom = this.createRoom.bind(this);
     this.enterRoom = this.enterRoom.bind(this);
   }
 
   sendMessage(text) {
     this.setState({
-      messages: [...this.state.messages, { text: text, time: "11:00" }],
+      messages: [
+        ...this.state.messages,
+        { senderId: this.state.userId, text: text, time: "11:00" }
+      ],
       scroll: !this.state.scroll
     });
   }
 
+  addunreadMessage() {
+    this.setState({
+      messages: [
+        ...this.state.messages,
+        { senderId: -1, text: "unread messages", time: "" }
+      ]
+    });
+  }
+  removeunreadMessage() {
+    this.setState({
+      temp: []
+    });
+    this.state.messages.map(message => {
+      if (message.senderId !== -1) {
+        this.setState({
+          temp: [...this.state.temp, message]
+        });
+      }
+    });
+    this.setState({
+      messages: this.state.temp
+    });
+  }
   createRoom(name) {
     console.log(name);
     this.setState({
       rooms: [...this.state.rooms, { name: name, messages: [] }]
     });
   }
+
   enterRoom(name) {
     this.state.rooms.map(room => {
       if (room.name === name) {
