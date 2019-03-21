@@ -47,10 +47,10 @@ class ChatPage extends Component {
       messages: [
         ...this.state.messages,
         {
-          senderName: this.state.userName,
-          senderId: this.state.userId,
-          text: text,
-          time: "11:00"
+          user: this.state.userName,
+          userId: this.state.userId,
+          body: text,
+          updatedAt: "11:00"
         }
       ],
       scroll: !this.state.scroll
