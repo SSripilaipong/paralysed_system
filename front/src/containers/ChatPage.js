@@ -14,14 +14,14 @@ class ChatPage extends Component {
       rooms: [],
       roomId: null,
       userId: "toey",
-      scroll: false
+      scroll: false,
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.addunreadMessage = this.addunreadMessage.bind(this);
     this.createRoom = this.createRoom.bind(this);
     this.enterRoom = this.enterRoom.bind(this);
   }
-
+  
   sendMessage(text) {
     this.setState({
       messages: [
@@ -58,34 +58,25 @@ class ChatPage extends Component {
   createRoom(name) {
     console.log(name);
     this.setState({
-      rooms: [...this.state.rooms, { name: name, messages: [] }]
+      rooms: [...this.state.rooms, name]
     });
   }
 
   enterRoom(name) {
-    this.state.rooms.map(room => {
-      if (room.name === name) {
-        this.setState({
-          roomId: name,
-          messages: room.messages
-        });
-      }
+    this.setState({
+      roomId: name
     });
   }
   render() {
     return (
       <div className="chat">
-        <RoomList rooms={[...this.state.rooms]} enterRoom={this.enterRoom} />
+        <RoomList rooms={[...this.state.rooms]} enterRoom={this.enterRoom} joinRoom={this.joinRoom}/>
         <MessageList
           messages={this.state.messages}
           userId={this.state.userId}
           scroll={this.state.scroll}
-          roomId={this.state.roomId}
         />
-        <SendMessageForm
-          sendMessage={this.sendMessage}
-          roomId={this.state.roomId}
-        />
+        <SendMessageForm sendMessage={this.sendMessage} />
         <NewRoomForm createRoom={this.createRoom} />
       </div>
     );
