@@ -30,7 +30,7 @@ class LoginPage extends Component {
         .post("/auth/login", data)
         .then(res => {
           console.log(res.user);
-          window.location = "/";
+          window.location = "/chat";
         })
         .catch(e => {
           this.setState({
