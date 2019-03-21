@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./LoginPage.css";
 import axios from "axios";
 import {
   FormGroup,
@@ -8,13 +9,11 @@ import {
   Form
 } from "react-bootstrap";
 import { withRouter, Link } from "react-router-dom";
+import { fail } from "assert";
 class LoginPage extends Component {
   state = {
-    username: "",
-    password: "",
-    validated: false,
-    faillogin: false,
-    failmessage: "No User ID or Password"
+    user: "",
+    password: ""
   };
   loginHandler = event => {
     event.preventDefault();
@@ -23,19 +22,33 @@ class LoginPage extends Component {
       event.stopPropagation();
     }
     this.setState({ validated: true });
-    const data = { ...this.state };
+    const data = {
+      user: this.state.user,
+      password: this.state.password
+    };
     if (form.checkValidity()) {
       axios
-        .post("/auth/login", data)
+        .post("http://localhost:8000/api/login", data, {
+          headers: { "Content-type": "application/json" }
+        })
         .then(res => {
-          console.log(res.user);
-          window.location = "/";
+          console.log(res.data);
+          alert(res.data);
+
+          window.localStorage.setItem("userName", res.data.user);
+          window.localStorage.setItem("userId", res.data._id);
+          window.location = "/chat";
         })
         .catch(e => {
           this.setState({
             faillogin: true
           });
         }); // Handle Login failed
+      // const res = await axios.post("http://localhost:8000/api/login", data, {
+      //   headers: { "Content-type": "application/json" }
+      // });
+      // console.log(res);
+      // alert(res);
     }
   };
   handleChange = event => {
@@ -49,13 +62,13 @@ class LoginPage extends Component {
       <div className="Login">
         <Form onSubmit={this.loginHandler} noValidate validated={validated}>
           <p className="center_text">MEMBER LOGIN</p>
-          <FormGroup controlId="username" size="large">
+          <FormGroup controlId="user" size="large">
             <FormLabel>Username</FormLabel>
             <FormControl
               required
               autoFocus
               type="username"
-              value={this.state.username}
+              value={this.state.user}
               onChange={this.handleChange}
             />
           </FormGroup>
@@ -78,10 +91,12 @@ class LoginPage extends Component {
             style={{ width: "40%", margin: "0 auto" }}
             // disabled={!this.validateForm()}
             type="submit"
+            onClick={this.loginHandler}
           >
             Login
           </Button>
 
+          <a href="regis">Register</a>
         </Form>
       </div>
     );

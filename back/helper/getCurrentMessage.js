@@ -1,0 +1,23 @@
+const { Message, validate } = require('../models/message');
+
+async function getCurrentMessage(gid, userObj, message) {
+  const { _id, user } = userObj;
+  console.log('_id', _id);
+  console.log('user', user);
+  let currentMessage = new Message({
+    groupId: gid,
+    body: message,
+    userId: _id,
+    user
+  });
+  const { error } = validate(currentMessage);
+  if (error) console.log(error);
+  try {
+    currentMessage = await currentMessage.save();
+    return currentMessage;
+  } catch (e) {
+    return undefined;
+  }
+}
+
+module.exports = getCurrentMessage;
