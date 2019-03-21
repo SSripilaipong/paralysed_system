@@ -24,10 +24,10 @@ module.exports = server => {
       console.log('user disconnected');
     });
 
-    socket.on('sent-message', data => {
+    socket.on('sent-message', async data => {
       //get time
       const { gid, user, message } = data;
-      const currentMessage = await getCurrentMessage(gid,user,message);
+      const currentMessage = await getCurrentMessage(gid, user, message);
       if (currentMessage) {
         console.log(currentMessage);
         socket.to(gid).emit('new-message', message);
@@ -35,7 +35,6 @@ module.exports = server => {
       } else {
         console.log('Get current message fails');
       }
-      
     });
   });
 };
