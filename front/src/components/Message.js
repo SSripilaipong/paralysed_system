@@ -31,7 +31,7 @@ function Message(props) {
             className="senderId"
             style={{ display: props.senderId === -1 ? "none" : "" }}
           >
-            {props.senderId}
+            {props.senderName}
           </div>
           <div
             style={{

@@ -28,16 +28,27 @@ class LoginPage extends Component {
     };
     if (form.checkValidity()) {
       axios
-        .post("http://localhost:8000/api/login", data,  { headers: { "Content-type": "application/json" } })
+        .post("http://localhost:8000/api/login", data, {
+          headers: { "Content-type": "application/json" }
+        })
         .then(res => {
-          console.log(res.user);
+          console.log(res.data);
+          alert(res.data);
+
+          window.localStorage.setItem("userName", res.data.user);
+          window.localStorage.setItem("userId", res.data._id);
           window.location = "/chat";
-        }) 
+        })
         .catch(e => {
           this.setState({
             faillogin: true
           });
         }); // Handle Login failed
+      // const res = await axios.post("http://localhost:8000/api/login", data, {
+      //   headers: { "Content-type": "application/json" }
+      // });
+      // console.log(res);
+      // alert(res);
     }
   };
   handleChange = event => {
