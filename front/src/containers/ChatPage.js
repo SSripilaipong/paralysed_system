@@ -83,14 +83,12 @@ class ChatPage extends Component {
     });
   }
 
-  recieveMessages(messages) {
-    // this.setState({
-    //   messages: messages,
-    //   lastmessageId: this.state.messages[-1]._id
-    // });
+  recieveMessage(messages) {
+    this.setState({
+      messages: [],
+      lastmessageIdLastTime: this.state.messages[-1]._id
+    });
   }
-
-  recieveMessage(message) {}
 
   createRoom(roomname) {
     axios
@@ -133,14 +131,13 @@ class ChatPage extends Component {
       });
   }
   enterRoom(roomname) {
-    window.localStorage.setItem(
-      "lastmessageId." + this.state.roomId,
-      this.state.lastmessageId
-    );
-
-    this.setState({
-      roomId: roomname,
-      lastmessageIdLastTime: window.localStorage
+    this.state.rooms.map(room => {
+      if (room.name === roomname) {
+        this.setState({
+          roomId: room.gname,
+          lastmessageId: this.state.lastmessageIdLastTime
+        });
+      }
     });
   }
   render() {

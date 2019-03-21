@@ -53,8 +53,10 @@ class MessageList extends React.Component {
           }}
         >
           {this.props.messages.map((message, index) => {
-            console.log("message", message);
-            if (message._id === this.props.lastmessageIdLastTime) {
+            if (
+              message._id.toString() ===
+              this.props.lastmessageIdLastTime.toString()
+            ) {
               return (
                 <div>
                   <Message
