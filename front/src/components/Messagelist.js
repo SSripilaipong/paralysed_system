@@ -53,16 +53,39 @@ class MessageList extends React.Component {
           }}
         >
           {this.props.messages.map((message, index) => {
-            return (
-              <Message
-                key={index}
-                userId={this.props.userId}
-                text={message.text}
-                time={message.time}
-                senderId={message.senderId}
-                senderName={message.senderName}
-              />
-            );
+            if (message._id === this.props.lastmessageIdLastTime) {
+              return (
+                <div>
+                  <Message
+                    key={index}
+                    userId={this.props.userId}
+                    text={message.body}
+                    time={message.time}
+                    senderId={message.senderId}
+                    senderName={message.senderName}
+                  />
+                  <Message
+                    key={index}
+                    userId={this.props.userId}
+                    text="new messages"
+                    time={message.time}
+                    senderId={-1}
+                    senderName={message.senderName}
+                  />
+                </div>
+              );
+            } else {
+              return (
+                <Message
+                  key={index}
+                  userId={this.props.userId}
+                  text={message.body}
+                  time={message.time}
+                  senderId={message.senderId}
+                  senderName={message.senderName}
+                />
+              );
+            }
           })}
         </div>
       </div>

@@ -15,7 +15,9 @@ class ChatPage extends Component {
       roomId: null,
       userName: window.localStorage.getItem("userName"),
       userId: window.localStorage.getItem("userId"),
-      scroll: false
+      scroll: false,
+      lastmessageIdLastTime: "",
+      lastmessageId: ""
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.addunreadMessage = this.addunreadMessage.bind(this);
@@ -28,6 +30,7 @@ class ChatPage extends Component {
   componentDidMount() {
     this.getRoomlist();
   }
+
   getRoomlist() {
     axios
       .get(`http://localhost:8000/api/groups/${this.state.userName}`)
@@ -38,6 +41,7 @@ class ChatPage extends Component {
         );
       });
   }
+
   sendMessage(text) {
     this.setState({
       messages: [
@@ -62,6 +66,7 @@ class ChatPage extends Component {
       ]
     });
   }
+
   removeunreadMessage() {
     this.setState({
       temp: []
@@ -77,6 +82,21 @@ class ChatPage extends Component {
       messages: this.state.temp
     });
   }
+
+  recieveMessages(messages) {
+    this.setState({
+      messages: messages,
+      lastmessageId: messages[messages.length - 1]._id
+    });
+  }
+
+  recieveMessage(message) {
+    this.setState({
+      messages: [...this.state.messages, message],
+      lastmessageId: message._id
+    });
+  }
+
   createRoom(roomname) {
     axios
       .post(
@@ -118,14 +138,30 @@ class ChatPage extends Component {
       });
   }
   enterRoom(roomname) {
-    this.state.rooms.map(room => {
-      if (room.name === roomname) {
-        this.setState({
-          roomId: room.name,
-          messages: room.messages
-        });
-      }
+    window.localStorage.setItem(
+      "lastmessageId." + this.state.roomId,
+      this.state.lastmessageId
+    );
+
+    this.setState({
+      roomId: roomname,
+      lastmessageIdLastTime: window.localStorage.getItem(
+        "lastmessageId." + roomname
+      )
     });
+    let groupId = "5c91e7df45ff9b0a704d6531";
+    axios
+      .get(
+        "http://localhost:8000/api/message/" + groupId,
+
+        {
+          headers: { "Content-type": "application/json" }
+        }
+      )
+      .then(res => {
+        console.log(res.data);
+        this.recieveMessages(res.data);
+      });
   }
   render() {
     return (
@@ -141,6 +177,8 @@ class ChatPage extends Component {
           userName={this.state.userName}
           userId={this.state.userId}
           scroll={this.state.scroll}
+          lastmessageIdLastTime={this.state.lastmessageIdLastTime}
+          lastmessageId={this.state.lastmessageId}
         />
         <SendMessageForm
           sendMessage={this.sendMessage}

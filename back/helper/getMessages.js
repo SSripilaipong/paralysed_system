@@ -1,4 +1,4 @@
-const { Message } = require('../models/message');
+const { Message } = require("../models/message");
 
 async function getMessages(gid) {
   try {
