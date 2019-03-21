@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import "./ChatPage.css";
-import MessageList from "../components/Messagelist";
-import SendMessageForm from "../components/SendMessageForm";
-import RoomList from "../components/Roomlist";
-import NewRoomForm from "../components/NewRoomForm";
-import axios from "axios";
+import React, { Component } from 'react';
+import './ChatPage.css';
+import MessageList from '../components/Messagelist';
+import SendMessageForm from '../components/SendMessageForm';
+import RoomList from '../components/Roomlist';
+import NewRoomForm from '../components/NewRoomForm';
+import axios from 'axios';
 class ChatPage extends Component {
   constructor() {
     super();
@@ -13,14 +13,25 @@ class ChatPage extends Component {
       temp: [],
       rooms: [],
       roomId: null,
-      userName: window.localStorage.getItem("userName"),
-      userId: window.localStorage.getItem("userId"),
+      userName: window.localStorage.getItem('userName'),
+      userId: window.localStorage.getItem('userId'),
       scroll: false
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.addunreadMessage = this.addunreadMessage.bind(this);
     this.createRoom = this.createRoom.bind(this);
     this.enterRoom = this.enterRoom.bind(this);
+  }
+
+  componentDidMount() {
+    axios
+      .get(`http://localhost:8000/api/groups/${this.state.userName}`)
+      .then(res => {
+        const { groups } = res.data;
+        this.setState({ rooms: [...groups.joined, ...groups.notJoined] }, () =>
+          console.log(this.state.rooms)
+        );
+      });
   }
 
   sendMessage(text) {
@@ -31,7 +42,7 @@ class ChatPage extends Component {
           senderName: this.state.userName,
           senderId: this.state.userId,
           text: text,
-          time: "11:00"
+          time: '11:00'
         }
       ],
       scroll: !this.state.scroll
@@ -43,7 +54,7 @@ class ChatPage extends Component {
     this.setState({
       messages: [
         ...this.state.messages,
-        { senderId: -1, text: "unread messages", time: "" }
+        { senderId: -1, text: 'unread messages', time: '' }
       ]
     });
   }
@@ -78,6 +89,7 @@ class ChatPage extends Component {
       }
     });
   }
+
   render() {
     return (
       <div className="chat">
