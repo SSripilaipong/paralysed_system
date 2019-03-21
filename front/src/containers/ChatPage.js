@@ -30,12 +30,17 @@ class ChatPage extends Component {
   createRoom(name) {
     console.log(name);
     this.setState({
-      rooms: [...this.state.rooms, name]
+      rooms: [...this.state.rooms, { name: name, messages: [] }]
     });
   }
   enterRoom(name) {
-    this.setState({
-      roomId: name
+    this.state.rooms.map(room => {
+      if (room.name === name) {
+        this.setState({
+          roomId: name,
+          messages: room.messages
+        });
+      }
     });
   }
   render() {
@@ -46,8 +51,12 @@ class ChatPage extends Component {
           messages={this.state.messages}
           userId={this.state.userId}
           scroll={this.state.scroll}
+          roomId={this.state.roomId}
         />
-        <SendMessageForm sendMessage={this.sendMessage} />
+        <SendMessageForm
+          sendMessage={this.sendMessage}
+          roomId={this.state.roomId}
+        />
         <NewRoomForm createRoom={this.createRoom} />
       </div>
     );

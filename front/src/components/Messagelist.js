@@ -37,6 +37,18 @@ class MessageList extends React.Component {
       <div className="massagelist">
         <div
           style={{
+            display: this.props.roomId !== null ? "none" : "flex",
+            flexDirection: "column",
+            alignItems: "center",
+
+            justifyContent: "center",
+            height: "100%"
+          }}
+        >
+          <h3 style={{ color: "#8A8D8A" }}>Start You Conversation !!!</h3>
+        </div>
+        <div
+          style={{
             paddingRight: "20px",
             paddingLeft: "10px"
           }}

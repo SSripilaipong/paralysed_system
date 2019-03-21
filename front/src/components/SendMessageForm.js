@@ -18,7 +18,6 @@ class SendMessageForm extends React.Component {
   }
 
   handlerSubmit(e) {
-    
     e.preventDefault();
     if (this.state.message) {
       this.props.sendMessage(this.state.message);
@@ -28,15 +27,15 @@ class SendMessageForm extends React.Component {
     }
     const data = { ...this.state };
     axios
-    .post("/api/message", data)
-    .then(res => {
-      console.log(res.user);
-    })
-    .catch(e => {
-      this.setState({
-        failmessage: true
-      });
-    }); // Handle Login failed
+      .post("/api/message", data)
+      .then(res => {
+        console.log(res.user);
+      })
+      .catch(e => {
+        this.setState({
+          failmessage: true
+        });
+      }); // Handle Login failed
   }
 
   render() {
@@ -47,6 +46,7 @@ class SendMessageForm extends React.Component {
           value={this.state.message}
           placeholder="Type your message and Enter"
           type="text"
+          style={{ display: this.props.roomId === null ? "none" : "" }}
         />
       </form>
     );
