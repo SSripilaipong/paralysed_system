@@ -8,11 +8,19 @@ class Roomlist extends React.Component {
           <h3>ROOMS</h3>
           {this.props.rooms.map(room => {
             return (
-              <div
-                className="room"
-                onClick={() => this.props.enterRoom(room.name)}
-              >
-                <a className="roomName">{room.name}</a>
+              <div className="room">
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%"
+                  }}
+                  onClick={() => this.props.enterRoom(room.name)}
+                >
+                  <a className="roomName">{room.name}</a>
+                </div>
                 <Button href="#">Join</Button>
               </div>
             );
