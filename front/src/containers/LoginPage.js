@@ -27,7 +27,7 @@ class LoginPage extends Component {
     const data = { ...this.state };
     if (form.checkValidity()) {
       axios
-        .post("/auth/login", data)
+        .post("http://localhost:8000/api/login", data)
         .then(res => {
           console.log(res.user);
           window.location = "/chat";
@@ -81,7 +81,7 @@ class LoginPage extends Component {
             style={{ width: "40%", margin: "0 auto" }}
             // disabled={!this.validateForm()}
             type="submit"
-            onSubmit={this.loginHandler}
+            onClick={this.loginHandler}
           >
             Login
           </Button>
