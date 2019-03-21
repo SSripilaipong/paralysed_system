@@ -30,7 +30,9 @@ class LoginPage extends Component {
     };
     if (form.checkValidity()) {
       axios
-        .post("http://localhost:8000/api/login", data)
+        .post("http://localhost:8000/api/login", data, {
+          headers: { "Content-type": "application/json" }
+        })
         .then(res => {
           console.log(res.user);
           window.location = "/chat";
