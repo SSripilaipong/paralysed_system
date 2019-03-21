@@ -3,7 +3,8 @@ const router = express.Router();
 const Joi = require('joi');
 const { Group } = require('../models/group');
 const { User } = require('../models/user');
-const getGroupsAndMessages = require('../helper/getGroupsAndMessages');
+const getGroups = require('../helper/getGroups');
+const getMessages = require('../helper/getMessages');
 
 function validate(req) {
   const schema = {
@@ -35,7 +36,12 @@ router.post('/', async (req, res) => {
     group.participants.push(user._id);
     try {
       await group.save();
-      getGroupsAndMessages(res, req.body.user, req.body.gid);
+      const groups = await getGroups(req.body.user);
+      if (!groups) return res.send('Get groups fail');
+      res.send({
+        groups,
+        messages: []
+      });
     } catch (e) {
       res.send(e);
     }
