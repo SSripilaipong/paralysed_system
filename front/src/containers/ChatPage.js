@@ -4,7 +4,7 @@ import MessageList from "../components/Messagelist";
 import SendMessageForm from "../components/SendMessageForm";
 import RoomList from "../components/Roomlist";
 import NewRoomForm from "../components/NewRoomForm";
-
+import axios from "axios";
 class ChatPage extends Component {
   constructor() {
     super();
@@ -13,7 +13,8 @@ class ChatPage extends Component {
       temp: [],
       rooms: [],
       roomId: null,
-      userId: "toey",
+      userName: window.localStorage.getItem("userName"),
+      userId: window.localStorage.getItem("userId"),
       scroll: false
     };
     this.sendMessage = this.sendMessage.bind(this);
@@ -26,10 +27,16 @@ class ChatPage extends Component {
     this.setState({
       messages: [
         ...this.state.messages,
-        { senderId: this.state.userId, text: text, time: "11:00" }
+        {
+          senderName: this.state.userName,
+          senderId: this.state.userId,
+          text: text,
+          time: "11:00"
+        }
       ],
       scroll: !this.state.scroll
     });
+    console.log(this.state.userName);
   }
 
   addunreadMessage() {
@@ -75,12 +82,13 @@ class ChatPage extends Component {
     return (
       <div className="chat">
         <RoomList
-          rooms={[...this.state.rooms]}
+          rooms={this.state.rooms}
           enterRoom={this.enterRoom}
           joinRoom={this.joinRoom}
         />
         <MessageList
           messages={this.state.messages}
+          userName={this.state.userName}
           userId={this.state.userId}
           scroll={this.state.scroll}
         />
