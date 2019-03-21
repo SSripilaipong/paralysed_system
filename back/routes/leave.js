@@ -26,10 +26,11 @@ router.post('/', async (req, res) => {
 
     if (index > -1) {
       group.participants.splice(index, 1);
-      console.log(group);
       try {
         await group.save();
-        getGroups(res, user);
+        const groups = await getGroups(user);
+        if (!groups) return res.send('Get groups fail');
+        res.send({ groups });
       } catch (e) {
         res.send(e);
       }
