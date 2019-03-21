@@ -1,8 +1,25 @@
 import React from "react";
 function Message(props) {
+  let textClassName = "";
+  let messageClassName = "";
+  if (props.senderId === -1) {
+    textClassName = "unreadtext";
+  } else if (props.userId === props.senderId) {
+    textClassName = "ourtext";
+  } else if (props.userId !== props.senderId && props.senderId !== -1) {
+    textClassName = "othertext";
+  }
+  if (props.senderId === -1) {
+    messageClassName = "unreadmessage";
+  }
+  if (props.userId === props.senderId) {
+    messageClassName = "ourmessage";
+  } else if (props.userId !== props.senderId && props.senderId !== -1) {
+    messageClassName = "othermessage";
+  }
   return (
     <div style={{ width: "100%" }}>
-      <div className={props.userId === "toey" ? "ourmessage" : "othermessage"}>
+      <div className={messageClassName}>
         <div
           style={{
             display: "flex",
@@ -10,7 +27,12 @@ function Message(props) {
             justifyContent: "flex-start"
           }}
         >
-          <div className="userId">{props.userId}</div>
+          <div
+            className="senderId"
+            style={{ display: props.senderId === -1 ? "none" : "" }}
+          >
+            {props.senderId}
+          </div>
           <div
             style={{
               display: "flex",
@@ -19,9 +41,7 @@ function Message(props) {
               alignItems: "flex-end"
             }}
           >
-            <div className={props.userId === "toey" ? "ourtext" : "othertext"}>
-              {props.text}
-            </div>
+            <div className={textClassName}>{props.text}</div>
             <div className="messageTime">{props.time}</div>
           </div>
         </div>

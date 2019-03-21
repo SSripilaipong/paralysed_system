@@ -10,44 +10,84 @@ class ChatPage extends Component {
     super();
     this.state = {
       messages: [],
+      temp: [],
       rooms: [],
       roomId: null,
       userId: "toey",
-      scroll: false,
+      scroll: false
     };
     this.sendMessage = this.sendMessage.bind(this);
+    this.addunreadMessage = this.addunreadMessage.bind(this);
     this.createRoom = this.createRoom.bind(this);
     this.enterRoom = this.enterRoom.bind(this);
   }
-  
+
   sendMessage(text) {
     this.setState({
-      messages: [...this.state.messages, { text: text, time: "11:00" }],
+      messages: [
+        ...this.state.messages,
+        { senderId: this.state.userId, text: text, time: "11:00" }
+      ],
       scroll: !this.state.scroll
     });
   }
 
-  createRoom(name) {
-    console.log(name);
+  addunreadMessage() {
     this.setState({
-      rooms: [...this.state.rooms, name]
+      messages: [
+        ...this.state.messages,
+        { senderId: -1, text: "unread messages", time: "" }
+      ]
     });
   }
-  enterRoom(name) {
+  removeunreadMessage() {
     this.setState({
-      roomId: name
+      temp: []
+    });
+    this.state.messages.map(message => {
+      if (message.senderId !== -1) {
+        this.setState({
+          temp: [...this.state.temp, message]
+        });
+      }
+    });
+    this.setState({
+      messages: this.state.temp
+    });
+  }
+  createRoom(name) {
+    this.setState({
+      rooms: [...this.state.rooms, { name: name, messages: [] }]
+    });
+  }
+
+  enterRoom(name) {
+    this.state.rooms.map(room => {
+      if (room.name === name) {
+        this.setState({
+          roomId: room.name,
+          messages: room.messages
+        });
+      }
     });
   }
   render() {
     return (
       <div className="chat">
-        <RoomList rooms={[...this.state.rooms]} enterRoom={this.enterRoom} joinRoom={this.joinRoom}/>
+        <RoomList
+          rooms={[...this.state.rooms]}
+          enterRoom={this.enterRoom}
+          joinRoom={this.joinRoom}
+        />
         <MessageList
           messages={this.state.messages}
           userId={this.state.userId}
           scroll={this.state.scroll}
         />
-        <SendMessageForm sendMessage={this.sendMessage} />
+        <SendMessageForm
+          sendMessage={this.sendMessage}
+          roomId={this.state.roomId}
+        />
         <NewRoomForm createRoom={this.createRoom} />
       </div>
     );

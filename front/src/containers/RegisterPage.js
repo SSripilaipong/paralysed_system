@@ -1,16 +1,24 @@
-import React, { Component } from 'react';
-import { Button, Form, Row, Col, FormGroup, Modal, FormControl, FormLabel } from "react-bootstrap";
+import React, { Component } from "react";
+import {
+  Button,
+  Form,
+  Row,
+  Col,
+  FormGroup,
+  Modal,
+  FormControl,
+  FormLabel
+} from "react-bootstrap";
 import axios from "axios";
-import { Link } from 'react-router-dom'
-import "./RegisterPage.css"
+import { Link } from "react-router-dom";
+import "./RegisterPage.css";
 class RegisterPage extends Component {
   state = {
     user: "",
-    password: ""
-    //password: "",
-    // confirm:"",
-    //validated: false,
-    //faillogin: false,
+    password: "",
+    confirm: "",
+    validated: false,
+    faillogin: false
   };
   submitHandler = event => {
     event.preventDefault();
@@ -19,8 +27,11 @@ class RegisterPage extends Component {
       event.stopPropagation();
     }
     this.setState({ validated: true });
-    const data = { ...this.state };
-    axios.post("http://localhost:8000/api/register", data, { headers: { "Content-type": "application/json" } })
+    const data = { user: this.state.user, password: this.state.password };
+    axios
+      .post("http://localhost:8000/api/register", data, {
+        headers: { "Content-type": "application/json" }
+      })
       .then(res => {
         console.log(res.user);
         window.location = "/";
@@ -30,7 +41,6 @@ class RegisterPage extends Component {
           faillogin: true
         });
       }); // Handle Login failed
-
   };
   handleChange = event => {
     this.setState({
@@ -68,11 +78,15 @@ class RegisterPage extends Component {
           </FormGroup>
         </div>
         <div className="buttonwrapper">
-          <Button variant="danger" className="buttonwrapper" href="/">Back</Button>
-          <Button className="buttonwrapper" onClick={this.submitHandler}>Confirm</Button>
+          <Button variant="danger" className="buttonwrapper" href="/">
+            Back
+          </Button>
+          <Button className="buttonwrapper" onClick={this.submitHandler}>
+            Confirm
+          </Button>
         </div>
       </div>
-    )
+    );
   }
 }
 

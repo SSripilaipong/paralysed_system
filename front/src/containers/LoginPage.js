@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./LoginPage.css"
+import "./LoginPage.css";
 import axios from "axios";
 import {
   FormGroup,
@@ -22,7 +22,10 @@ class LoginPage extends Component {
       event.stopPropagation();
     }
     this.setState({ validated: true });
-    const data = { ...this.state };
+    const data = {
+      username: this.state.username,
+      password: this.state.password
+    };
     if (form.checkValidity()) {
       axios
         .post("http://localhost:8000/api/login", data,  { headers: { "Content-type": "application/json" } })
@@ -45,9 +48,7 @@ class LoginPage extends Component {
   render() {
     const { validated } = this.state;
     return (
-      
       <div className="Login">
-        
         <Form onSubmit={this.loginHandler} noValidate validated={validated}>
           <p className="center_text">MEMBER LOGIN</p>
           <FormGroup controlId="user" size="large">
@@ -87,7 +88,6 @@ class LoginPage extends Component {
           <a href="regis">Register</a>
         </Form>
       </div>
-
     );
   }
 }

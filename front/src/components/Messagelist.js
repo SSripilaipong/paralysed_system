@@ -60,6 +60,7 @@ class MessageList extends React.Component {
                 userId={this.props.userId}
                 text={message.text}
                 time={message.time}
+                senderId={message.senderId}
               />
             );
           })}
