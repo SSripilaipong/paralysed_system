@@ -1,5 +1,7 @@
 const socketIO = require('socket.io');
 const getMessages = require('../helper/getMessages');
+const getCurrentMessage = require('../helper/getCurrentMessage');
+
 const subscribeGroup = async (socket, data) => {
   const { gid } = data;
   socket.join(gid);
@@ -25,9 +27,15 @@ module.exports = server => {
     socket.on('sent-message', data => {
       //get time
       const { gid, user, message } = data;
-      console.log(message);
-      socket.to(gid).emit('new-message', message);
-      console.log('emited');
+      const currentMessage = await getCurrentMessage(gid,user,message);
+      if (currentMessage) {
+        console.log(currentMessage);
+        socket.to(gid).emit('new-message', message);
+        console.log('emited');
+      } else {
+        console.log('Get current message fails');
+      }
+      
     });
   });
 };
