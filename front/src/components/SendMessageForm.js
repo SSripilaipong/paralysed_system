@@ -4,8 +4,7 @@ class SendMessageForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      message: "",
-      failmessage: false
+      message: ""
     };
     this.handlerChange = this.handlerChange.bind(this);
     this.handlerSubmit = this.handlerSubmit.bind(this);
