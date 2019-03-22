@@ -10,16 +10,19 @@ class MessageList extends React.Component {
     };
     this.submitMessage = this.submitMessage.bind(this);
   }
+
   submitMessage() {
     this.setState({
       scroll: this.props.scroll
     });
   }
+
   componentWillUpdate() {
     const node = ReactDOM.findDOMNode(this);
     this.shouldScrollToBottom =
       node.scrollTop + node.clientHeight + 100 >= node.scrollHeight;
   }
+
   componentDidUpdate() {
     if (this.shouldScrollToBottom) {
       const node = ReactDOM.findDOMNode(this);
@@ -53,7 +56,7 @@ class MessageList extends React.Component {
           }}
         >
           {this.props.messages.map(message => {
-            console.log('messages from render',typeof message.userId);
+            console.log("messages from render", typeof message.userId);
             if (message._id === this.props.lastmessageIdLastTime) {
               return (
                 <div>

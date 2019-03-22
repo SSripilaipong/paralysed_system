@@ -10,8 +10,7 @@ async function getCurrentMessage(gid, userObj, message) {
     userId: _id,
     user
   });
-  // const { error } = validate(currentMessage);
-  // if (error) console.log(error);
+
   try {
     currentMessage = await currentMessage.save();
     console.log(currentMessage)

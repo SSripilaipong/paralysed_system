@@ -94,6 +94,7 @@ class ChatPage extends Component {
         this.getRoomlist();
       });
   }
+
   joinRoom(roomgid) {
     const { userName } = this.state;
     this.setState({isLoading:true})
@@ -109,6 +110,7 @@ class ChatPage extends Component {
         this.getRoomlist();
       });
   }
+  
   leaveRoom(roomgid) {
     axios
       .post(
@@ -172,6 +174,7 @@ class ChatPage extends Component {
       this.connectSocket
     );
   }
+
   render() {
     return (
       <div className="chat">

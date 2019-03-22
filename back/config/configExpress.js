@@ -12,9 +12,6 @@ const message = require('../routes/message');
 const sent = require('../routes/sent');
 const leave = require('../routes/leave');
 
-// test routes
-const testSend = require('../routes/testSend');
-
 const configRoute = app => {
   app.use('/api/register', register);
   app.use('/api/login', auth);
@@ -24,7 +21,6 @@ const configRoute = app => {
   app.use('/api/message', message);
   app.use('/api/sent', sent);
   app.use('/api/leave', leave);
-  app.use('/api/test-send', testSend);
 };
 
 const configMiddleware = app => {

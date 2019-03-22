@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+
 class Roomlist extends React.Component {
   render() {
     return (
@@ -9,7 +10,7 @@ class Roomlist extends React.Component {
           {this.props.rooms.map(room => {
             let item = (<a className="roomName" style={{color: "black"}}>{room.gname}</a>);
             if(room.gid==this.props.roomid){
-              item = (<a className="roomName" style={{color: "green"}}>{room.gname}</a>);
+              item = (<a className="roomName" style={{color: "white"}}>{room.gname}</a>);
             }
             return (
               <div className="room">

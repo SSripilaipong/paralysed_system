@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./RegisterPage.css";
+
 class RegisterPage extends Component {
   state = {
     user: "",
@@ -21,6 +22,7 @@ class RegisterPage extends Component {
     validated: false,
     faillogin: false
   };
+
   submitHandler = event => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -30,7 +32,7 @@ class RegisterPage extends Component {
     this.setState({ validated: true });
     const data = { user: this.state.user, password: this.state.password };
     axios
-      .post(API_URL+"/api/register", data, {
+      .post(API_URL + "/api/register", data, {
         headers: { "Content-type": "application/json" }
       })
       .then(res => {
@@ -43,11 +45,13 @@ class RegisterPage extends Component {
         });
       }); // Handle Login failed
   };
+
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
   };
+
   render() {
     return (
       <div className="wrapper">

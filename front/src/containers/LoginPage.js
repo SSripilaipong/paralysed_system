@@ -10,11 +10,14 @@ import {
 } from "react-bootstrap";
 import { withRouter, Link } from "react-router-dom";
 import { fail } from "assert";
+import API_URL from "../config";
+
 class LoginPage extends Component {
   state = {
     user: "",
     password: ""
   };
+  
   loginHandler = event => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -28,12 +31,12 @@ class LoginPage extends Component {
     };
     if (form.checkValidity()) {
       axios
-        .post("http://localhost:8000/api/login", data, {
+        .post(API_URL + "/api/login", data, {
           headers: { "Content-type": "application/json" }
         })
         .then(res => {
           console.log(res.data);
-          alert(res.data);
+          alert("Login success with username: " + res.data.user );
 
           window.localStorage.setItem("userName", res.data.user);
           window.localStorage.setItem("userId", res.data._id);
@@ -43,19 +46,16 @@ class LoginPage extends Component {
           this.setState({
             faillogin: true
           });
-        }); // Handle Login failed
-      // const res = await axios.post("http://localhost:8000/api/login", data, {
-      //   headers: { "Content-type": "application/json" }
-      // });
-      // console.log(res);
-      // alert(res);
+        });
     }
   };
+
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
   };
+
   render() {
     const { validated } = this.state;
     return (
