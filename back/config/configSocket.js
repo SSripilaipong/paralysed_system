@@ -26,6 +26,7 @@ module.exports = server => {
     });
 
     socket.on("sent-message", async data => {
+      // console.log(data)
       const { gid, userObj, message } = data;
       const currentMessage = await getCurrentMessage(gid, userObj, message);
       if (currentMessage) {
