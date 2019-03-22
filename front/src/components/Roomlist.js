@@ -7,7 +7,7 @@ class Roomlist extends React.Component {
         <ui>
           <h3>ROOMS</h3>
           {this.props.rooms.map(room => {
-            let item = (<a className="roomName" style={{color: "red"}}>{room.gname}</a>);
+            let item = (<a className="roomName" style={{color: "black"}}>{room.gname}</a>);
             if(room.gid==this.props.roomid){
               item = (<a className="roomName" style={{color: "green"}}>{room.gname}</a>);
             }
@@ -36,7 +36,7 @@ class Roomlist extends React.Component {
                   }}
                   style={{display: room.isJoined ? "none" : ""}}
                 >
-                  <h8>{room.gname}</h8>
+                  <h10 style={{color:"rgb(72,72,72)"}}>{room.gname}</h10>
                 </div>
                 <Button 
                   size="sm"
