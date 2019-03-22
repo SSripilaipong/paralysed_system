@@ -7,35 +7,19 @@ services:
           - backend1
           - backend2
       ports:
-          - '8000:8080'
+          - '8080:8080'
   backend1:
       build: ./back
       tty: true
       volumes:
-        - './back:/backend-dir-inside-container'
-        - './back/package.json:/backend-dir-inside-container/package.json'
-        - './back/package-lock.json:/backend-dir-inside-container/package-lock.json'
-      command: node server.js
+        - './back/src:/backend-dir-inside-container'
+      command: node index.js
   backend2:
       build: ./back
       tty: true
       volumes:
-        - './back:/backend-dir-inside-container'
-        - './back/package.json:/backend-dir-inside-container/package.json'
-        - './back/package-lock.json:/backend-dir-inside-container/package-lock.json'
-      command: node server.js
-  frontend:
-      build: ./front
-      tty: true
-      volumes:
-        - './front:/frontend-dir-inside-container'
-        - './front/package.json:/frontend-dir-inside-container/package.json'
-        - './front/package-lock.json:/frontend-dir-inside-container/package-lock.json'
-      command: npm start
-      ports:
-          - '3000:3000'
-      environment:
-        - API_URL=${API_URL}
+        - './back/src:/backend-dir-inside-container'
+      command: node index.js
   # api:
   #   build:
   #     context: .
