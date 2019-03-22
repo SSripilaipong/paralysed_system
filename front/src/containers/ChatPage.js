@@ -5,6 +5,10 @@ import SendMessageForm from "../components/SendMessageForm";
 import RoomList from "../components/Roomlist";
 import NewRoomForm from "../components/NewRoomForm";
 import axios from "axios";
+import io from "socket.io-client";
+
+const serverUrl = "http://localhost:8000/";
+
 class ChatPage extends Component {
   constructor() {
     super();
@@ -42,21 +46,15 @@ class ChatPage extends Component {
       });
   }
 
-  sendMessage(text) {
-    this.setState({
-      messages: [
-        ...this.state.messages,
-        {
-          senderName: this.state.userName,
-          senderId: this.state.userId,
-          text: text,
-          time: "11:00"
-        }
-      ],
-      scroll: !this.state.scroll
+  sendMessage = (message) => {
+    const { roomId, userId, userName } = this.state;
+    this.state.socket.emit("sent-message", {
+      gid: roomId,
+      userObj: { _id: userId, user: userName },
+      message: message
     });
-    console.log(this.state.userName);
-  }
+    this.setState({ scroll: !this.state.scroll });
+  };
 
   addunreadMessage() {
     this.setState({
@@ -80,20 +78,6 @@ class ChatPage extends Component {
     });
     this.setState({
       messages: this.state.temp
-    });
-  }
-
-  recieveMessages(messages) {
-    this.setState({
-      messages: messages,
-      lastmessageId: messages[messages.length - 1]._id
-    });
-  }
-
-  recieveMessage(message) {
-    this.setState({
-      messages: [...this.state.messages, message],
-      lastmessageId: message._id
     });
   }
 
@@ -137,31 +121,55 @@ class ChatPage extends Component {
         this.getRoomlist();
       });
   }
+
+  recieveMessages = async data => {
+    const messages = JSON.parse(data);
+    console.log('messages from receive message',messages,messages[messages.length - 1]);
+    this.setState({
+      messages: messages,
+      lastmessageId: messages.length > 0 ? messages[messages.length - 1]._id : 0
+    });
+  };
+
+  recieveMessage = data => {
+    const message = JSON.parse(data);
+    console.log(message);
+    this.setState({
+      messages: [...this.state.messages, message],
+      lastmessageId: message._id
+    });
+  };
+
+  async connectSocket() {
+    const socket = this.state.socket;
+    socket.on("connect", async () => {
+      await socket.emit("enter-group", { gid: this.state.roomId });
+      socket.on("respone", this.recieveMessages);
+      socket.on("new-message", this.recieveMessage);
+    });
+  }
+
   enterRoom(roomname) {
     window.localStorage.setItem(
       "lastmessageId." + this.state.roomId,
       this.state.lastmessageId
     );
 
-    this.setState({
-      roomId: roomname,
-      lastmessageIdLastTime: window.localStorage.getItem(
-        "lastmessageId." + roomname
-      )
-    });
-    let groupId = "5c91e7df45ff9b0a704d6531";
-    axios
-      .get(
-        "http://localhost:8000/api/message/" + groupId,
-
-        {
-          headers: { "Content-type": "application/json" }
-        }
-      )
-      .then(res => {
-        console.log(res.data);
-        this.recieveMessages(res.data);
-      });
+    let previousSocket = this.state.socket;
+    if (previousSocket) {
+      previousSocket.disconnect();
+    }
+    let socket = io(serverUrl);
+    this.setState(
+      {
+        socket: socket,
+        roomId: roomname,
+        lastmessageIdLastTime: window.localStorage.getItem(
+          "lastmessageId." + roomname
+        )
+      },
+      this.connectSocket
+    );
   }
   render() {
     return (

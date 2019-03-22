@@ -52,37 +52,38 @@ class MessageList extends React.Component {
             paddingLeft: "10px"
           }}
         >
-          {this.props.messages.map((message, index) => {
+          {this.props.messages.map(message => {
+            console.log('messages from render',typeof message.userId);
             if (message._id === this.props.lastmessageIdLastTime) {
               return (
                 <div>
                   <Message
-                    key={index}
+                    key={message._id}
                     userId={this.props.userId}
                     text={message.body}
-                    time={message.time}
-                    senderId={message.senderId}
-                    senderName={message.senderName}
+                    time={message.createdAt}
+                    senderId={message.userId}
+                    senderName={message.user}
                   />
                   <Message
-                    key={index}
+                    key={message._id}
                     userId={this.props.userId}
                     text="new messages"
-                    time={message.time}
+                    time={message.createdAt}
                     senderId={-1}
-                    senderName={message.senderName}
+                    senderName={message.user}
                   />
                 </div>
               );
             } else {
               return (
                 <Message
-                  key={index}
+                  key={message._id}
                   userId={this.props.userId}
                   text={message.body}
-                  time={message.time}
-                  senderId={message.senderId}
-                  senderName={message.senderName}
+                  time={message.createdAt}
+                  senderId={message.userId}
+                  senderName={message.user}
                 />
               );
             }
