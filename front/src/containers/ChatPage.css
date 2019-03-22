@@ -19,7 +19,10 @@ body {
 #root {
   height: 100%;
 }
-
+.buttonwrapper{
+  margin-top: 5px;
+  
+}
 .chat {
   display: grid;
   height: 100%;

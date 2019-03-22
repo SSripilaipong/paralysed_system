@@ -179,6 +179,7 @@ class ChatPage extends Component {
           enterRoom={this.enterRoom}
           joinRoom={this.joinRoom}
           leaveRoom={this.leaveRoom}
+          roomid= {this.state.roomId}
         />
         <MessageList
           messages={this.state.messages}
