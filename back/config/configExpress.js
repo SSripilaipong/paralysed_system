@@ -1,5 +1,6 @@
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const morgan  = require('morgan')
 
 // import routes
 const register = require('../routes/register');
@@ -29,6 +30,7 @@ const configRoute = app => {
 const configMiddleware = app => {
   app.use(cors());
   app.use(bodyParser.json());
+  app.use(morgan('combined'))
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
