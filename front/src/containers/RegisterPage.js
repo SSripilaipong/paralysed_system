@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import API_URL from "../config";
 import {
   Button,
   Form,
@@ -29,7 +30,7 @@ class RegisterPage extends Component {
     this.setState({ validated: true });
     const data = { user: this.state.user, password: this.state.password };
     axios
-      .post("http://localhost:8000/api/register", data, {
+      .post(API_URL+"/api/register", data, {
         headers: { "Content-type": "application/json" }
       })
       .then(res => {

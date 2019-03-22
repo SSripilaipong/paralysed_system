@@ -6,8 +6,7 @@ import RoomList from "../components/Roomlist";
 import NewRoomForm from "../components/NewRoomForm";
 import axios from "axios";
 import io from "socket.io-client";
-
-const serverUrl = "http://localhost:8000/";
+import API_URL from "../config"
 
 class ChatPage extends Component {
   constructor() {
@@ -21,7 +20,8 @@ class ChatPage extends Component {
       userId: window.localStorage.getItem("userId"),
       scroll: false,
       lastmessageIdLastTime: "",
-      lastmessageId: ""
+      lastmessageId: "",
+      isLoading: false
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.addunreadMessage = this.addunreadMessage.bind(this);
@@ -37,7 +37,7 @@ class ChatPage extends Component {
 
   getRoomlist() {
     axios
-      .get(`http://localhost:8000/api/groups/${this.state.userName}`)
+      .get(`${API_URL}/api/groups/${this.state.userName}`)
       .then(res => {
         const { groups } = res.data;
         this.setState({ rooms: [...groups.joined, ...groups.notJoined] }, () =>
@@ -84,7 +84,7 @@ class ChatPage extends Component {
   createRoom(roomname) {
     axios
       .post(
-        "http://localhost:8000/api/create-group",
+        API_URL+"/api/create-group",
         { name: roomname, user: this.state.userName },
         {
           headers: { "Content-type": "application/json" }
@@ -96,9 +96,10 @@ class ChatPage extends Component {
   }
   joinRoom(roomgid) {
     const { userName } = this.state;
+    this.setState({isLoading:true})
     axios
       .post(
-        "http://localhost:8000/api/join",
+        API_URL+"/api/join",
         { gid: roomgid, user: userName },
         {
           headers: { "Content-type": "application/json" }
@@ -111,7 +112,7 @@ class ChatPage extends Component {
   leaveRoom(roomgid) {
     axios
       .post(
-        "http://localhost:8000/api/leave",
+        API_URL+"/api/leave",
         { gid: roomgid, user: this.state.userName },
         {
           headers: { "Content-type": "application/json" }
@@ -159,7 +160,7 @@ class ChatPage extends Component {
     if (previousSocket) {
       previousSocket.disconnect();
     }
-    let socket = io(serverUrl);
+    let socket = io(API_URL);
     this.setState(
       {
         socket: socket,
