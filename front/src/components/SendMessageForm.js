@@ -4,7 +4,8 @@ class SendMessageForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      message: ""
+      message: "",
+      failmessage: false
     };
     this.handlerChange = this.handlerChange.bind(this);
     this.handlerSubmit = this.handlerSubmit.bind(this);
@@ -24,6 +25,17 @@ class SendMessageForm extends React.Component {
         message: ""
       });
     }
+    const data = { ...this.state };
+    axios
+      .post("/api/message", data)
+      .then(res => {
+        console.log(res.user);
+      })
+      .catch(e => {
+        this.setState({
+          failmessage: true
+        });
+      }); // Handle Login failed
   }
 
   render() {
