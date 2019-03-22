@@ -57,32 +57,29 @@ class MessageList extends React.Component {
               return (
                 <div>
                   <Message
-                    key={index}
                     userId={this.props.userId}
                     text={message.body}
-                    time={message.time}
-                    senderId={message.senderId}
-                    senderName={message.senderName}
+                    time={message.updatedAt}
+                    senderId={message.userId}
+                    senderName={message.user}
                   />
                   <Message
-                    key={index}
-                    userId={this.props.userId}
-                    text="new messages"
-                    time={message.time}
+                    userId={""}
+                    text="unread messages"
+                    time={""}
                     senderId={-1}
-                    senderName={message.senderName}
+                    senderName={""}
                   />
                 </div>
               );
             } else {
               return (
                 <Message
-                  key={index}
                   userId={this.props.userId}
                   text={message.body}
-                  time={message.time}
-                  senderId={message.senderId}
-                  senderName={message.senderName}
+                  time={message.updatedAt}
+                  senderId={message.userId}
+                  senderName={message.user}
                 />
               );
             }
