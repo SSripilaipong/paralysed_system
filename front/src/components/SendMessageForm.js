@@ -29,21 +29,13 @@ class SendMessageForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handlerSubmit} className="sendMessage">
-        <div
-          style={{
-            overflowY: "scroll",
-            maxWidth: "100%",
-            minWidth: "100%"
-          }}
-        >
-          <input
-            onChange={this.handlerChange}
-            value={this.state.message}
-            placeholder="Type your message and Enter"
-            type="text"
-            style={{ display: this.props.roomId === null ? "none" : "" }}
-          />
-        </div>
+        <input
+          onChange={this.handlerChange}
+          value={this.state.message}
+          placeholder="Type your message and Enter"
+          type="text"
+          style={{ display: this.props.roomId === null ? "none" : "" }}
+        />
       </form>
     );
   }

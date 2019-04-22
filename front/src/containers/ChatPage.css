@@ -19,21 +19,22 @@ body {
 #root {
   height: 100%;
 }
-.buttonwrapper {
+.buttonwrapper{
   margin-top: 5px;
+  
 }
 .chat {
   display: grid;
   height: 100%;
-  grid-template-columns: 55px 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 45px 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 60px;
   grid-template-areas:
-    "t n m m m m m"
-    "t r m m m m m"
-    "t r m m m m m"
-    "t r m m m m m"
-    "t r m m m m m"
-    "t r f f f f f";
+    "r m m m m m"
+    "r m m m m m"
+    "r m m m m m"
+    "r m m m m m"
+    "r m m m m m"
+    "n f f f f f";
 }
 
 .newRoomForm {
@@ -44,10 +45,6 @@ body {
   grid-area: r;
 }
 
-.userlist {
-  grid-area: r;
-}
-
 .massagelist {
   grid-area: m;
 }
@@ -55,50 +52,14 @@ body {
 .sendMessage {
   grid-area: f;
 }
-.tabbar {
-  grid-area: t;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(45, 54, 73);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-.tabbar img {
-  cursor: pointer;
-}
-
-.tabbar img:hover {
-  filter: brightness(1.2);
-}
-
-.tabbar .exiticon img:hover {
-  filter: brightness(3);
-}
-
+/* REST OF CSS */
 .roomlist {
   box-sizing: border-box;
   padding: 10px;
-  background-color: white;
-  overflow: hidden;
+  background-color: var(--main-color);
+  overflow: scroll;
   height: 100%;
-  position: relative;
-  border-right: #bdbdbd;
-  border-right-style: solid;
-  border-right-width: 1px;
-}
-
-.userlist {
-  box-sizing: border-box;
-  padding: 10px;
-  background-color: white;
-  overflow: hidden;
-  height: 100%;
-  position: relative;
-  border-right: #bdbdbd;
-  border-right-style: solid;
-  border-right-width: 1px;
 }
 
 .roomlist ul {
@@ -122,12 +83,7 @@ body {
   justify-content: space-between;
   align-content: center;
 }
-.userlist .user {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-content: center;
-}
+
 .roomlist .room:hover .roomName {
   color: white;
 }
@@ -147,13 +103,6 @@ body {
   padding: 0 5px;
   background: var(--secondary-color);
   color: var(--main-text-color);
-  height: fit-content;
-  border-bottom-color: #bdbdbd;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-right: #bdbdbd;
-  border-right-style: solid;
-  border-right-width: 1px;
 }
 
 .newRoomForm form {
@@ -261,10 +210,10 @@ body {
 
 .massagelist {
   box-sizing: border-box;
-  position: relative;
+  padding-left: 6px;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: scroll;
   background: var(--secondary-color);
 }
 
@@ -280,10 +229,6 @@ body {
 .sendMessage {
   background: var(--send-message-form);
   display: flex;
-  position: relative;
-  border-top-color: #bdbdbd;
-  border-top-style: solid;
-  border-top-width: 1px;
 }
 
 .sendMessage input {
