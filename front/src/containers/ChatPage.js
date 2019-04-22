@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import "./ChatPage.css";
 import MessageList from "../components/Messagelist";
 import SendMessageForm from "../components/SendMessageForm";
+import Tabbar from "../components/Tabbar";
 import RoomList from "../components/Roomlist";
+import Userlist from "../components/Userlist";
 import NewRoomForm from "../components/NewRoomForm";
 import axios from "axios";
 import io from "socket.io-client";
-import API_URL from "../config"
+import API_URL from "../config";
 
 class ChatPage extends Component {
   constructor() {
@@ -21,7 +23,8 @@ class ChatPage extends Component {
       scroll: false,
       lastmessageIdLastTime: "",
       lastmessageId: "",
-      isLoading: false
+      isLoading: false,
+      list: 0
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.addunreadMessage = this.addunreadMessage.bind(this);
@@ -29,6 +32,8 @@ class ChatPage extends Component {
     this.enterRoom = this.enterRoom.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
     this.leaveRoom = this.leaveRoom.bind(this);
+    this.switchlist = this.switchlist.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
@@ -36,17 +41,15 @@ class ChatPage extends Component {
   }
 
   getRoomlist() {
-    axios
-      .get(`${API_URL}/api/groups/${this.state.userName}`)
-      .then(res => {
-        const { groups } = res.data;
-        this.setState({ rooms: [...groups.joined, ...groups.notJoined] }, () =>
-          console.log(this.state.rooms)
-        );
-      });
+    axios.get(`${API_URL}/api/groups/${this.state.userName}`).then(res => {
+      const { groups } = res.data;
+      this.setState({ rooms: [...groups.joined, ...groups.notJoined] }, () =>
+        console.log(this.state.rooms)
+      );
+    });
   }
 
-  sendMessage = (message) => {
+  sendMessage = message => {
     const { roomId, userId, userName } = this.state;
     this.state.socket.emit("sent-message", {
       gid: roomId,
@@ -84,7 +87,7 @@ class ChatPage extends Component {
   createRoom(roomname) {
     axios
       .post(
-        API_URL+"/api/create-group",
+        API_URL + "/api/create-group",
         { name: roomname, user: this.state.userName },
         {
           headers: { "Content-type": "application/json" }
@@ -97,10 +100,10 @@ class ChatPage extends Component {
 
   joinRoom(roomgid) {
     const { userName } = this.state;
-    this.setState({isLoading:true})
+    this.setState({ isLoading: true });
     axios
       .post(
-        API_URL+"/api/join",
+        API_URL + "/api/join",
         { gid: roomgid, user: userName },
         {
           headers: { "Content-type": "application/json" }
@@ -110,11 +113,11 @@ class ChatPage extends Component {
         this.getRoomlist();
       });
   }
-  
+
   leaveRoom(roomgid) {
     axios
       .post(
-        API_URL+"/api/leave",
+        API_URL + "/api/leave",
         { gid: roomgid, user: this.state.userName },
         {
           headers: { "Content-type": "application/json" }
@@ -127,7 +130,11 @@ class ChatPage extends Component {
 
   recieveMessages = async data => {
     const messages = JSON.parse(data);
-    console.log('messages from receive message',messages,messages[messages.length - 1]);
+    console.log(
+      "messages from receive message",
+      messages,
+      messages[messages.length - 1]
+    );
     this.setState({
       messages: messages,
       lastmessageId: messages.length > 0 ? messages[messages.length - 1]._id : 0
@@ -174,17 +181,32 @@ class ChatPage extends Component {
       this.connectSocket
     );
   }
-
+  switchlist(listnum) {
+    this.setState({
+      list: listnum
+    });
+    console.log(this.state.list);
+  }
+  logout() {
+    console.log("logout");
+  }
   render() {
     return (
       <div className="chat">
+        <Tabbar
+          switchlist={this.switchlist}
+          logout={this.logout}
+          list={this.state.list}
+        />
         <RoomList
           rooms={this.state.rooms}
           enterRoom={this.enterRoom}
           joinRoom={this.joinRoom}
           leaveRoom={this.leaveRoom}
-          roomid= {this.state.roomId}
+          roomid={this.state.roomId}
+          list={this.state.list}
         />
+        <Userlist rooms={this.state.rooms} list={this.state.list} />
         <MessageList
           messages={this.state.messages}
           userName={this.state.userName}
